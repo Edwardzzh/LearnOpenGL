@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.0.0)
+project(createWindow VERSION 0.1.0)
+
+include(CTest)
+enable_testing()
+
+add_executable(createWindow main.cpp ~/Deps/glad/glad4.6/src/glad.c)
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ~/Deps/glad/glad4.6/include)
+
+target_include_directories(${PROJECT_NAME} PUBLIC /opt/homebrew/Cellar/glfw/3.3.8/include)
+target_link_directories(${PROJECT_NAME} PUBLIC /opt/homebrew/Cellar/glfw/3.3.8/lib)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw)

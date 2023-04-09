@@ -24,12 +24,6 @@ const char *fragmentShaderSource = "#version 330 core\n"
                                    "{\n"
                                    "  FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
                                    "}\0";
-const char *fragmentShader2Source = "#version 330 core\n"
-                                    "out vec4 FragColor;\n"
-                                    "void main()\n"
-                                    "{\n"
-                                    "  FragColor = vec4(1.0f, 1.0f, 0.0f, 1.0f);\n"
-                                    "}\0";
 
 const int INFO_SIZE = 512;
 

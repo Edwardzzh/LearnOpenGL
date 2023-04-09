@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(drawTriangle VERSION 0.1.0)
+project(shaderPractice VERSION 0.1.0)
 
 include(CTest)
 enable_testing()
@@ -16,6 +16,7 @@ include(CPack)
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${GLAD_DIR}/include
     ${GLFW_DIR}/include
+    ${SHADER_UTILS_DIR}
 )
 
 target_link_directories(${PROJECT_NAME} PUBLIC
@@ -24,4 +25,5 @@ target_link_directories(${PROJECT_NAME} PUBLIC
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     glfw
+    shaderUtils
 )

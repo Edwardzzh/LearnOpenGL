@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(LearnOpenGL VERSION 0.1.0)
 
+set(GLFW_DIR "/opt/homebrew/Cellar/glfw/3.3.8")
+set(GLAD_DIR "~/Deps/glad/glad3.3")
+set(SHADER_UTILS_DIR "${PROJECT_SOURCE_DIR}/ShaderUtils")
+
+add_subdirectory(ShaderUtils)
 add_subdirectory(CreateWindow)
 add_subdirectory(DrawTriangle)
+add_subdirectory(ShaderPractice)

@@ -7,6 +7,10 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
 void processInput(GLFWwindow *window);
@@ -32,7 +36,7 @@ int main()
 
     // glfw window creation
     // --------------------
-    GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "TexturePractice", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "MatrixPractice", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -140,11 +144,17 @@ int main()
     // uncomment this call to draw in wireframe polygons.
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    Shader ourShader("/Users/jamesedward/VSCodeProjects/LearnOpenGL/TexturePractice/shader.vs",
-                     "/Users/jamesedward/VSCodeProjects/LearnOpenGL/TexturePractice/shader.fs");
+    Shader ourShader("/Users/jamesedward/VSCodeProjects/LearnOpenGL/MatrixPractice/shader.vs",
+                     "/Users/jamesedward/VSCodeProjects/LearnOpenGL/MatrixPractice/shader.fs");
     ourShader.use();
     ourShader.setInt("texture1", 0);
     ourShader.setInt("texture2", 1);
+    unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
+    // glm::mat4 trans;
+    // trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+    // trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
+    // unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
+    // glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
     glBindVertexArray(VAO);
     // render loop
     // -----------
@@ -159,10 +169,19 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        float timeValue = glfwGetTime();
-        float horizontalShift = sin(timeValue) / 2.0f;
-        ourShader.setFloat("horizontalShift", horizontalShift);
+        glm::mat4 trans;
+        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+        trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+        
         ourShader.setFloat("mixValue", mixValue);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        glm::mat4 trans2;
+        trans2 = glm::translate(trans2, glm::vec3(-0.5f, 0.5f, 0.0f));
+        float scaleValue = static_cast<float>(sin(glfwGetTime()));
+        trans2 = glm::scale(trans2, glm::vec3(scaleValue, scaleValue, scaleValue));
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans2));
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
